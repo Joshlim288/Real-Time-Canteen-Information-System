@@ -1,0 +1,240 @@
+<div id="{{ menus[0].restaurant_id }}-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-hidden="true">
+    <div class="menu-dialog modal-dialog modal-notify modal-info d-flex justify-content-center" role="document" style="min-height: 100%; align-items: center; max-width: 90%;">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">
+                    <span style="padding-right: 0.5rem">
+                        <i class="fas fa-book-open"></i>
+                    </span>Menus
+                </p>
+                {% if menus|length > 0 %}
+                <ul class="nav nav-tabs menu-tabs" id="{{ menus[0].restaurant_id }}-menu-tabs" role="tablist">
+                {% for menu in menus %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if loop.first %}active{% endif %}"
+                           id="tab-link-{{ menu._id }}"
+                           data-toggle="tab"
+                           href="#tab-{{ menu._id }}"
+                           role="tab"
+                           aria-controls="tab-{{ menu._id }}"
+                           aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ menu.name }}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="tab-content" id="myTabContentMD">
+                    {% if menus|length > 0 %}
+                    {% for menu in menus %}
+                        <!-- Menu tab pane -->
+                        <div class="tab-pane fade {% if loop.first %}show active{% endif %}"
+                             id="tab-{{ menu._id }}"
+                             role="tabpanel"
+                             aria-labelledby="tab-link-{{ menu._id }}">
+                            <div class="row left">
+                                <!-- Menu operating hours -->
+                                <div class="current-menu-operating-hours">
+                                    <p class="current-operating-hour m-0">From
+                                        <span class="operating-hour">{{ menu.start_datetime|format_datetime("%#I:%M%p") }}</span> to
+                                        <span class="operating-hour">{{ menu.end_datetime|format_datetime("%#I:%M%p") }}</span>
+                                    </p>
+                                </div>
+                                <!-- End Menu operating hours -->
+                                <ul class="nav nav-tabs md-pills nav-justified pills-light-purple pills-rounded list-group list-group-horizontal" role="tablist">
+                                    <li class="nav-item">
+                                        <a id="main-type-tab-{{ menu._id }}"
+                                           class="nav-link active"
+                                           data-toggle="tab"
+                                           href="#main-menu-items-{{ menu._id }}"
+                                           role="tab"
+                                           aria-controls="main-menu-items-{{ menu._id }}"
+                                           aria-selected="true">
+                                        <span style="padding-right: 0.5rem">
+                                            <i class="fas fa-hamburger"></i>
+                                        </span>
+                                            Main <span class="seperator"></span> {{ menu["menu_items"]|selectattr("category", "equalto", 0)|list|count }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="drinks-type-tab-{{ menu._id }}"
+                                           class="nav-link"
+                                           data-toggle="tab"
+                                           href="#drinks-menu-items-{{ menu._id }}"
+                                           role="tab"
+                                           aria-controls="drinks-menu-items-{{ menu._id }}"
+                                           aria-selected="false">
+                                        <span style="padding-right: 0.5rem">
+                                           <i class="fas fa-coffee"></i>
+                                        </span>
+                                            Drinks <span class="seperator"></span> {{ menu["menu_items"]|selectattr("category", "equalto", 1)|list|count }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="sides-type-tab-{{ menu._id }}"
+                                           class="nav-link"
+                                           data-toggle="tab"
+                                           href="#sides-menu-items-{{ menu._id }}"
+                                           role="tab"
+                                           aria-controls="sides-menu-items-{{ menu._id }}"
+                                           aria-selected="false">
+                                            <span style="padding-right: 0.5rem">
+                                                <i class="fas fa-hamburger"></i>
+                                            </span>
+                                            Sides <span class="seperator"></span> {{ menu["menu_items"]|selectattr("category", "equalto", 2)|list|count }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content container">
+                                <!-- Main category Menu items -->
+                                <div class="tab-pane fade show active"
+                                     id="main-menu-items-{{ menu._id }}"
+                                     role="tabpanel"
+                                     aria-labelledby="main-type-tab-{{ menu._id }}">
+                                {% if main_menu_items|length > 0 %}
+                                    {% for menu_item in main_menu_items if menu_item.menu_id == menu._id %}
+                                    {% if loop.first %}<div class="card-deck">{% endif %}
+                                    {% if menu_item.category == 0 %}
+                                    <!-- Menu Item Card -->
+                                    <div class="card menu-item">
+                                        <!--Card image-->
+                                        <div class="view overlay">
+                                            <img class="card-img-top" src="{{ menu_item.image }}" alt="Card image cap">
+                                            <a href="">
+                                                <div class="mask rgba-white-slight"></div>
+                                            </a>
+                                        </div>
+                                        <!--Card content-->
+                                        <div class="card-body">
+                                            <!--Title-->
+                                            <h4 class="card-title">{{ menu_item.name }}</h4>
+                                            <!--Text-->
+                                            <p class="card-text">
+                                                <span style="padding-right: 0.1rem">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </span>
+                                                <strong class="price">{{ menu_item.price }}</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Menu Item Card -->
+                                    {% endif %}
+                                    {% if loop.index % 4 == 0 %}</div><div class="card-deck">{% endif %}
+                                    {% if loop.last %}</div>{% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="mt-3">There are no main menu items for the {{ menu.name }} menu.</p>
+                                {% endif %}
+                                </div>
+                                <!-- End Main category Menu items -->
+                                <!-- Drinks category Menu items -->
+                                <div class="tab-pane fade"
+                                     id="drinks-menu-items-{{ menu._id }}"
+                                     role="tabpanel"
+                                     aria-labelledby="drinks-type-tab-{{ menu._id }}">
+                                {% if drinks_menu_items|length > 0 %}
+                                    {% for menu_item in drinks_menu_items if menu_item.menu_id == menu._id %}
+                                        {% if loop.first %}<div class="card-deck">{% endif %}
+                                        {% if menu_item.category == 1 %}
+                                        <!-- Menu Item Card -->
+                                        <div class="card menu-item">
+                                            <!--Card image-->
+                                            <div class="view overlay">
+                                                <img class="card-img-top" src="{{ menu_item.image }}" alt="Card image cap">
+                                                <a href="">
+                                                    <div class="mask rgba-white-slight"></div>
+                                                </a>
+                                            </div>
+                                            <!--Card content-->
+                                            <div class="card-body">
+                                                <!--Title-->
+                                                <h4 class="card-title">{{ menu_item.name }}</h4>
+                                                <!--Text-->
+                                                <p class="card-text">
+                                                        <span style="padding-right: 0.1rem">
+                                                            <i class="fas fa-dollar-sign"></i>
+                                                        </span>
+                                                    <strong class="price">{{ menu_item.price }}</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Menu Item Card -->
+                                        {% endif %}
+                                        {% if loop.index % 4 == 0 %}</div><div class="card-deck">{% endif %}
+                                        {% if loop.last %}</div>{% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="mt-3">There are no drinks for the {{ menu.name }} menu.</p>
+                                {% endif %}
+                                </div>
+                                <!-- End Drinks category Menu items -->
+                                <!-- Sides category Menu items -->
+                                <div class="tab-pane fade"
+                                     id="sides-menu-items-{{ menu._id }}"
+                                     role="tabpanel"
+                                     aria-labelledby="sides-type-tab-{{ menu._id }}-{{ menu._id }}">
+                                {% if sides_menu_items|length > 0 %}
+                                    {% for menu_item in sides_menu_items if menu_item.menu_id == menu._id %}
+                                        {% if loop.first %}<div class="card-deck">{% endif %}
+                                        {% if menu_item.category == 2 %}
+                                        <!-- Menu Item Card -->
+                                        <div class="card menu-item">
+                                            <!--Card image-->
+                                            <div class="view overlay">
+                                                <img class="card-img-top" src="{{ menu_item.image }}" alt="Card image cap">
+                                                <a href="">
+                                                    <div class="mask rgba-white-slight"></div>
+                                                </a>
+                                            </div>
+                                            <!--Card content-->
+                                            <div class="card-body">
+                                                <!--Title-->
+                                                <h4 class="card-title">{{ menu_item.name }}</h4>
+                                                <!--Text-->
+                                                <p class="card-text">
+                                                    <span style="padding-right: 0.1rem">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                    <strong class="price">{{ menu_item.price }}</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Menu Item Card -->
+                                        {% endif %}
+                                        {% if loop.index % 4 == 0 %}</div><div class="card-deck">{% endif %}
+                                        {% if loop.last %}</div>{% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="mt-3">There are no sides for the {{ menu.name }} menu.</p>
+                                {% endif %}
+                                </div>
+                                <!-- End Sides category Menu items -->
+                            </div>
+                        </div>
+                        <!-- End Menu tab pane -->
+                    {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="tab-pane fade" id="err" role="tabpanel" aria-labelledby="err-tab">
+                        <p>No menus exist for this restaurant as it is currently closed.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+{#id="{{ menus[0].restaurant_id }}-modal"#}

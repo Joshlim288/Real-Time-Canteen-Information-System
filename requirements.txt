@@ -1,0 +1,9 @@
+Click==7.0
+Flask==1.1.1
+gunicorn==19.9.0
+pymongo==3.9.0
+wheel==0.33.6
+Jinja2==2.10.3
+Werkzeug==0.16.0
+itsdangerous==1.1.0
+dnspython==1.16.0

@@ -1,0 +1,140 @@
+{% set items_per_page = 6 %}
+{% set pages = available_restaurants_count/items_per_page %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <!-- Nav bar start -->
+    <header>
+        <div class="greetings-panel">
+            <div class="container text-center" style="width: 100%">
+                <div class="row">
+                    <div class="col-md-8 text-left">
+                        <a class="NTU-name">
+                            <strong class="no-padding">NTU</strong> Northspine
+                        </a>
+                        <h1 id="greetings" class="display-1"></h1>
+                        <hr id="header-separator"/>
+                        <div class="row">
+                            <div id="available-restaurants" class="container align-middle d-table">
+                                <h1 id="available-restaurants-number" class="d-table-cell pr-2">{{ available_restaurants_count }}</h1>
+                                <p class="d-table-cell text-white text-left" style="
+                                        vertical-align: baseline;
+                                        display: table-cell;
+                                        width: 100%;">Restaurants currently available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <div id="time-info-container" class="mb-0">
+                            <h2 id="tt" class="display-4 m-0"{% if custom_dt_value is defined %} data-custom-dt-value="{{ custom_dt_value }}"{% endif %}></h2>
+                            <p id="day-of-week" class="lead m-0"></p><p id="current-date" class="no-margin"></p>
+                            <button class="c-datepicker-btn btn peach-gradient ml-0">
+                                    <span style="padding-right: 0.5rem">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </span>Other dates
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- nav bar end -->
+    <main class="py-4">
+        <div class="container">
+            <div id="restaurants-header" class="text-left">
+                    <span style="padding-right: 0.5rem">
+                        <i class="fas fa-utensils"></i>
+                    </span>Restaurants
+            </div>
+            <div id="restaurants-container" class="card-columns">
+            {% if restaurants|length > 0  %}
+                {% for restaurant in restaurants %}
+                <div class="gridbox">
+                    <div class="restaurant-item-wrapper animated">
+                        {% include "restaurant-item.html" %}
+                    </div>
+                </div>
+{#                    {% if loop.first %}<div class="row">{% endif %}#}
+{#                        <div class="col-md-4">#}
+{#                            {% include "restaurant-item.html" %}#}
+{#                        </div>#}
+{#                        {% if loop.index % 3 == 0 %}</div><div class="row">{% endif %}#}
+{#                        {% if loop.last %}</div>{% endif %}#}
+                {% endfor %}
+                </div>
+            {% else %}
+                </div>
+                <p class="mt-3" style="font-size: 1.25rem;">There are currently no available restaurants.</p>
+                <style>html { height: 100% !important; }</style>
+            {% endif %}
+        </div>
+    </main>
+    <!--    <div class="spinner-border text-primary" role="status">-->
+    <!--        <span class="sr-only">Loading...</span>-->
+    <!--    </div>-->
+    {% if pages > 1 %}
+        <!-- Pagination -->
+        <div class="container col-md-12">
+            <nav>
+                <ul id="restaurant-pagination" class="pagination pg-blue justify-content-center" data-current-page="{{ page_number }}">
+                    {% if page_number != 1 %}
+                        <li class="page-item">
+                            <a id="to-previous" class="page-link" aria-label="Previous" onclick="iteratePage(this.id)">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% set max_pages = pages|round(0, "ceil")|int %}
+                    {% for n in range(max_pages) %}
+                        <li class="page-item{% if loop.index == page_number %} active{% endif %}">
+                            <a class="page-number page-link">
+                                <span>{{ loop.index }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% if page_number != max_pages %}
+                        <li class="page-item">
+                            <a id="to-next" class="page-link" aria-label="Next" onclick="iteratePage(this.id)">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <!-- End pagination -->
+    {% endif %}
+    <div id="modal-container"></div>
+    <div class="modal fade" id="calculate-queue-time-modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100">Calculate queue time for
+                        <span class="modal-restaurant-name"></span>
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="calculate-queue-time" name="calculate-queue-time" method="get">
+                    <div class="modal-body px-4 pb-0">
+                        <div class="md-form mt-3 mb-0">
+                            <i class="fas fa-users prefix grey-text pr-2"></i>
+                            <input type="number" id="people-queueing" class="form-control validate" min="0" step="1" pattern="[0-9]{10}">
+                            <label data-error="Invalid input. Try typing any whole number" data-success="" for="people-queueing"">Number of people queueing</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" class="calculate-wait-time btn btn-default peach-gradient">Calculate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

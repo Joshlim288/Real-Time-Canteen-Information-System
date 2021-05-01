@@ -1,0 +1,30 @@
+{% set operating_hour_day_index = 0 %}
+{% set days = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="full-restaurant-operating-hours">
+        <table class="table m-0">
+        {% for operating_hour_day in operating_hours %}
+            <tr{% if loop.first %} class="text-bold"{% endif %}>
+                <td class="text-left">
+                    {{ days[operating_hour_day[0]] }}
+                </td>
+                <td class="text-right">
+                    {% set current_day_operating_hours = operating_hour_day[1] %}
+                    {% if current_day_operating_hours is defined and current_day_operating_hours|length > 0 %}
+                        {% for operating_hour in current_day_operating_hours %}
+                            {% for key, value in operating_hour.items() %}
+                                {{ value|format_time("%#I:%M%p") }}{% if not loop.last %} –{% endif %}
+                            {% endfor %}<br>
+                        {% endfor %}
+                    {% else %}
+                        Closed
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

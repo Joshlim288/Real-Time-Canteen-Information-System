@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <!-- Restaurant Item -->
+    <div id="restaurant-item-{{ restaurant._id }}"
+         class="restaurant-item card card-cascade hoverable"
+         data-current-restaurant-id="{{ restaurant._id }}"
+         data-toggle="modal"
+         data-target="#{{ restaurant._id }}-modal">
+        <!-- Card image -->
+        <div class="view view-cascade overlay img-menu-btn">
+            <!-- Placeholder image link at: https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(147).jpg -->
+            <img class="card-img-top" src="{{ restaurant.logo }}" alt="Card image cap">
+            <a>
+                <div class="mask rgba-white-slight waves-effect waves-light"></div>
+            </a>
+        </div>
+        <span data-toggle="modal"
+              data-target="#calculate-queue-time-modal">
+            <a class="btn-floating btn-action ml-auto mr-4 mdb-color queue-time-fab tooltip-top"
+               title="Calculate queue time"
+               data-toggle="tooltip"
+               data-placement="top">
+            <i class="fas fa-user-clock pl-1"></i>
+        </a>
+        </span>
+        <!-- Card content -->
+        <div class="card-body card-body-cascade">
+            <!-- Title -->
+            <h4 class="restaurant-name card-title"><strong>{{ restaurant.name }}</strong></h4>
+            <!-- Subtitle -->
+            {# <h5 class="queue-time-wrapper"><i class="fa fa-clock text-muted"></i><b class="queue-time">{{ restaurant.average_waiting_time }} min</b> queue time</h5>#}
+            <div class="restaurant-operating-hours-wrapper">
+                <div class="current-restaurant-operating-hours mb-3">
+                    <span class="closes-at"
+                          data-current-start-time="{{ restaurant.start_time }}"
+                          data-current-end-time="{{ restaurant.end_time }}">
+                    </span>
+                    <span class="closes-at-hide" style="display: none">Hide</span>
+                    <span style="margin-left: .25rem;">
+                        <i class="fas fa-caret-down caret-rotatable"></i>
+                    </span>
+                </div>
+                <div class="full-restaurant-operating-hours-container animated fadeIn fast" style="display: none;"></div>
+            </div>
+            <hr class="mt-0">
+            <!-- Text -->
+            <p class="card-text">{{ restaurant.information }}</p>
+            <a class="menu-btn black-text bounce btn-flat d-flex justify-content-end">
+                <h5 class="m-0">Menu <i class="fas fa-angle-double-right"></i></h5>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

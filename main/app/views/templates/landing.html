@@ -1,0 +1,50 @@
+{% set items_per_page = 6 %}
+{% set pages = available_restaurants_count/items_per_page %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>NTU Northspine</title>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <!-- Bootstrap core CSS -->
+         <link href="{{ url_for("static", filename="mdboostrap/css/bootstrap.min.css") }}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+         <link href="{{ url_for("static", filename="mdboostrap/css/mdb.min.css") }}" rel="stylesheet">
+        <!-- Custom styles -->
+        <link href="{{ url_for("static", filename="mdboostrap/css/style.css") }}" rel="stylesheet">
+        <link href="{{ url_for("static", filename="icons/fontawesome/css/all.min.css") }}" rel="stylesheet">
+        <link href="{{ url_for("static", filename="css/material-icons.css") }}" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="{{ url_for("static", filename="css/material-datetime-picker.css") }}" rel="stylesheet">
+        <link href="{{ url_for("static", filename="css/styles.css") }}" rel="stylesheet">
+        <link rel="shortcut icon" href="https://www3.ntu.edu.sg/cits2/maintenance/img/favicon/favicon.png" type="image/vnd.microsoft.icon" id="favicon">
+        {% endblock %}
+    </head>
+    <body onload="initialize()">
+    <div id="content-wrapper">
+        {% include "content.html" %}
+    </div>
+    {% block scripts %}
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script src="{{ url_for("static", filename="mdboostrap/js/jquery-3.4.1.min.js") }}" charset="utf-8"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="{{ url_for("static", filename="mdboostrap/js/popper.min.js") }}" charset="utf-8"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for("static", filename="mdboostrap/js/bootstrap.min.js") }}" charset="utf-8"></script>
+    <!-- Core JavaScript -->
+    <script src="{{ url_for("static", filename="mdboostrap/js/mdb.min.js") }}" charset="utf-8"></script>
+    <script src="{{ url_for("static", filename="icons/fontawesome/js/all.min.js") }}" charset="utf-8"></script>
+    <script src="https://unpkg.com/babel-polyfill@6.2.0/dist/polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.standalone.js"></script>
+    <script src="{{ url_for("static", filename="js/material-datetime-picker.js") }}" charset="utf-8"></script>
+    <script src="{{ url_for("static", filename="js/scripts.js") }}" charset="utf-8"></script>
+    {% endblock %}
+    </body>
+</html>

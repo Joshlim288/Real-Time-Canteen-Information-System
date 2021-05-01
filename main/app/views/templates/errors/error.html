@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error {{ error_code }}</title>
+    <link rel="shortcut icon" href=""/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+     <link href="{{ url_for("static", filename="mdboostrap/css/bootstrap.min.css") }}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+     <link href="{{ url_for("static", filename="mdboostrap/css/mdb.min.css") }}" rel="stylesheet">
+     <!-- Custom styles -->
+    <link href="{{ url_for("static", filename="mdboostrap/css/style.css") }}" rel="stylesheet">
+    <link href="{{ url_for("static", filename="icons/fontawesome/css/all.min.css") }}" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="d-flex justify-content-center w-100 h-100">
+        <div class="jumbotron text-center mdb-color lighten-2 white-text m-0 w-100 h-100">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-5 pb-2 text-left d-flex justify-content-center align-content-center flex-column">
+                        <h2 class="error-code card-title h2 m-0" style="font-size: 15rem;">{{ error_code }}</h2>
+                        <hr class="my-4 rgba-white-light w-100" style="height: 2px">
+                        <p class="my-4 h6">{{ title }}</p>
+                        <p class="card-text">{{ description }}</p>
+                        <div class="pt-2">
+                            <a href="{{ url_for("main.restaurants") }}" class="btn btn-outline-white m-0">
+                                Restaurants<i class="fas fa-angle-double-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <img src="{{ url_for("static", filename="images/big mac.png") }}" alt="0"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

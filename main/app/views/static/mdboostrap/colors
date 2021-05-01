@@ -1,0 +1,27 @@
+"""Summary line.
+
+    Extended description of function.
+
+    Args:
+        arg1 (int): Description of arg1
+        arg2 (str): Description of arg2
+
+    Returns:
+        bool: Description of return value
+
+    """
+
+"""Summary line
+    
+    asdasd
+    
+    Args:
+        arg1 (int): asd
+        arg2 (str): asd
+    
+    Returns:
+        bool: 
+    
+    """
+def asd(asd,d, c, a):
+    pass

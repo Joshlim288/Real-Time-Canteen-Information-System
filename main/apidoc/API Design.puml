@@ -1,0 +1,60 @@
+@startuml
+    /'Methods are still up for changes'/
+    /' TODO Do restaurants and/or menus need category? '/
+    /' TODO Question to ask prof: What does the requirement mean by store?
+    Must there be a create function and form/UI for users to insert stall information and menus>?'/
+
+    class Restaurant {
+       - ObjectId _id
+       - string name
+       - string information
+       - Image logo
+       /' Not sure if need to get related objects as well?'/
+       + Restaurant retrieve_entire_restaurant(ObjectId _id) /'Done'/
+       /' Calculate waiting time
+        The algorithm of calculating estimated waiting time will depend on your own. You
+        can observe the time required for particular stall to serve one person and do the
+        multiplication with number of people in the line.'/
+       + string calc_wait_time(int people_in_queue)
+       /' TODO Restaurants retrieved should have currently available menu with menu items  '/
+       + List[Restaurant] retrieve_available_restaurants()
+       /' TODO Query for restaurants including their menus that matches name '/
+       + List[Restaurant] restaurant_user_input(string name) /' Modify restaurant search by menu or menu item? '/
+       /' TODO For Objective F (Not sure if this is exactly what they want) '/
+       + List[Restaurant] restaurant_by_operating_hours(List[ObjectId] operating_hours)
+       /' TODO Retrieve restaurant current menus '/
+       + List[Menu] restaurant_current_menus(ObjectId _id)
+        /' TODO Retrieve all restaurant menus '/
+       + List[Menu] restaurant_all_menus(ObjectId _id)
+       /' TODO Menus retrieved should have all related operating hours and menu items '/
+       + List[Menu] menus_user_input(datetime start_datetime, datetime end_datetime)
+    }
+
+    class Menu {
+        - ObjectId _id
+        - ObjectId restaurant_id
+        - string name
+        - string description
+        - datetime start_datetime
+        - datetime end_datetime
+        - List[int] day_of_week
+        - bool weekly_recurring
+        - int average_waiting_time
+        - int menu_type
+        + Menu retrieve_entire_menu(menu_id) /'Retrieve menu with all related menu items and operating hours'/
+        + List[MenuItem] retrieve_menu_items(object_id) /' Done '/
+    }
+
+    class MenuItem {
+        - ObjectId _id
+        - ObjectId menu_id
+        - string name
+        - double price
+        - Image image
+        - int category
+    }
+
+    Restaurant "1" -- "*" Menu : has
+    Menu "1" -- "*" MenuItem : has
+
+@enduml
