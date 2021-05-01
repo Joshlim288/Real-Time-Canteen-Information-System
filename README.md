@@ -1,5 +1,5 @@
 # Real Time Canteen Information Systems
-###### NTU CZ1003 Introduction to Computational Thinking - Assignment 3
+###### 2019 NTU CZ1003 Introduction to Computational Thinking - Assignment 3
 ------
 This project can currently be accessed via two methods.
 - Firstly, you can run a local instance of the project if you choose to follow the instructions below. It will take you on a step by step path to installing the project on your local machine. 
